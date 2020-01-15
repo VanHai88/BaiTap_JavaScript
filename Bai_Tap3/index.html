@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bai Tap 3</title>
+    <style>
+        td {
+            padding-right: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="table">
+        <tr>
+            <td>Nhập: <input type="text" name="aaaa" id="fibonacci" data-id="" value="2" /></td>
+            <td>Nhập: <input type="text" name="aaaa" id="create_tr" data-id="" value="2" /></td>
+        </tr>
+        <tr>
+            <td>STT</td>
+            <td>nhap :<input type="text" name="aaaa" id="valuanhap1" data-id="" value="2" /></td>
+            <td>nhap :<input type="text" name="bbbb" id="valuanhap2" data-id="" value="2" /></td>
+            <td>nhap :<input type="text" name="cccc" id="valuanhap3" data-id="" value="2" /></td>
+        </tr>
+        <tr class="change_table">
+            <td><label>0</label></td>
+            <td>Qty1 :<input type="text" value="0" name="qty1" data-id="sum1" data-idget="1" data-idlabel="1"
+                    onchange="event_change(this)" onfocus="event_focus(this)" />
+                ketqua :
+                <label class="kq1" id="label11">0</label>
+            </td>
+            <td>Qty1 :<input type="text" value="0" name="qtya1" data-id="sum2" data-idget="2" data-idlabel="1"
+                    onchange="event_change(this)" onfocus="event_focus(this)" />
+                ketqua :
+                <label class="kq2" id="label21">0</label>
+            </td>
+            <td>Qty1 :<input type="text" value="0" name="qtyb1" data-id="sum3" data-idget="3" data-idlabel="1"
+                    onchange="event_change(this)" onfocus="event_focus(this)" />
+                ketqua :
+                <label class="kq3" id="label31">0</label>
+            </td>
+        </tr>
+
+    </table>
+
+    <div>
+        <div>Total :
+            <input type="text" class="total" id="1" value="0" /></div>
+        <div>Total :
+            <input type="text" class="total" id="2" value="0" /></div>
+        <div>Total :
+            <input type="text" class="total" id="3" value="0" /></div>
+    </div>
+
+    <script src="./jquery/jquery-3.4.1.min.js"></script>
+
+    <script>
+        function create_td(idlabel) {
+            $(".table").append(
+                '<tr class="change_table"><td><label class="result-fibonacci" data-idfibonacci="1' + idlabel + '">0</label></td><td>Qty1 :<input type="text" value="0" name="qty1" data-id="sum1" data-idget="1" data-idlabel="' + idlabel + '" onchange="event_change(this)" onFocus="event_focus(this)"/>ketqua :<label class="kq1" id="label1' + idlabel + '">0</label></td><td>Qty1 :<input type="text" value="0" name="qtya1" data-id="sum2" data-idget="2" data-idlabel="' + idlabel + '" onchange="event_change(this)" onFocus="event_focus(this)" />ketqua :<label class="kq2" id="label2' + idlabel + '">0</label></td><td>Qty1 :<input type="text" value="0" name="qtyb1" data-id="sum3" data-idget="3" data-idlabel="' + idlabel + '" onchange="event_change(this)" onFocus="event_focus(this)" />ketqua :<label class="kq3" id="label3' + idlabel + '">0</label></td></tr>'
+            );
+        }
+        $("#create_tr").on('change', function () {
+            $(".change_table").remove();
+            var val_create = $(this).val();
+            for (let i = 1; i <= val_create; i++) {
+                create_td(i);
+            }
+            $(".total").val(0);
+        });
+
+        $("#fibonacci").change(function () {
+            var val_fibonacci = $("#fibonacci").val();
+            var arr_Fi = $('.result-fibonacci');
+            arr_Fi[0].innerHTML = 0;
+            arr_Fi[1].innerHTML = val_fibonacci;
+            for(let i = 1; i < arr_Fi.length-1; i++){
+                arr_Fi[i+1].innerHTML = parseInt(arr_Fi[i].innerHTML) + parseInt(arr_Fi[i-1].innerHTML);
+
+            }
+            
+        });
+
+        function event_focus(my_this) {
+            var idget = $(my_this).attr('data-idget');
+            var idlabel = $(my_this).attr('data-idlabel');
+            $(my_this).data('val', $(my_this).val());
+            $(my_this).data('val_total', $("#" + idget).val());
+            $(my_this).data('val_lable', $("#label" + idget + idlabel).text());
+        };
+
+        function event_change(my_this) {
+            var idget = $(my_this).attr('data-idget');
+            var idlabel = $(my_this).attr('data-idlabel');
+            var valuenhap = $("#valuanhap" + idget).val();
+            var tong = ($(my_this).val() * valuenhap);
+            $("#label" + idget + idlabel).text(tong);
+
+            var val_total = $(my_this).data('val_total');
+            var val_lable = $(my_this).data('val_lable');
+            var prev = parseInt($(my_this).data('val'));
+            var current = parseInt($(my_this).val());
+
+            var sum = current > prev ? (current - prev) * valuenhap + parseInt(val_total) :
+                (parseInt(val_total) - val_lable + parseInt($("#label" + idget + idlabel).text()));
+
+            $("#" + idget).val(sum);
+        }
+    </script>
+</body>
+
+</html>
